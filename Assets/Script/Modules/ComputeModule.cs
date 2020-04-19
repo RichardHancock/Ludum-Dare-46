@@ -10,9 +10,4 @@ public class ComputeModule : RackModule
         Type = ModuleType.Compute;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

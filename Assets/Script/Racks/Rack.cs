@@ -12,15 +12,16 @@ public abstract class Rack : Interactable
 
     public AnimationCurve ModuleAnimationCurve;
 
-    void Start()
+    protected virtual void Start()
     {
+        Modules = new List<GameObject>();
         InteractableFlag = true;
         InsertableFlag = true;
         MaxCapacity = 0;
         Health = 100.0f;
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (Modules.Count > 0)
         {
@@ -66,7 +67,6 @@ public abstract class Rack : Interactable
     public virtual int GetTotalOutput()
     {
         //Iterate through all rack modules and total their performance, then subtract any modifiers (Dustiness)
-        //TODO: Implement once rack module is implemented
         int output = 0;
 
         foreach (GameObject obj in Modules)
@@ -85,10 +85,10 @@ public abstract class Rack : Interactable
             if (obj.GetComponent<RackModule>().LocalFailCheck())
             {
                 //TODO Display Module Failure
-                break;
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 }

@@ -10,9 +10,4 @@ public class HardDrive : RackModule
         Type = ModuleType.HardDrive;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

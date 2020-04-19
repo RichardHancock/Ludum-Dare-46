@@ -5,14 +5,11 @@ using UnityEngine;
 public class ComputeRack : Rack
 {
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        CompatibleType = RackModule.ModuleType.Compute;
-    }
+        base.Start();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        CompatibleType = RackModule.ModuleType.Compute;
+        MaxCapacity = 4;
     }
 }

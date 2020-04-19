@@ -9,10 +9,4 @@ public class CoreModule : RackModule
     {
         Type = ModuleType.Core;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
