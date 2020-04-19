@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour
     private BoxCollider interactionCollider;
 
     private GameObject heldItem = null;
-    private GameObject itemInRange = null;
+    private GameObject itemInPickupRange = null;
+    private GameObject itemInInteractRange = null;
     public GameObject smallItemHoldPoint = null;
     public GameObject largeItemHoldPoint = null;
 
@@ -47,7 +48,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Submit"))
+        if (Input.GetButtonDown("Pickup"))
         {
             if (heldItem == null)
             {
@@ -58,19 +59,29 @@ public class PlayerController : MonoBehaviour
                 Drop();
             }
         }
+        else if (Input.GetButtonDown("Interact/Confirm"))
+        {
+            if (itemInInteractRange != null)
+            {
+                Debug.Log("Interaction with " + itemInInteractRange.name);
+            }
+        }
     }
 
     private void Drop()
     {
-        throw new NotImplementedException();
+        if (heldItem != null && itemInInteractRange != null)
+        {
+            Debug.Log("Item can drop");
+        }
     }
 
     private void PickUp()
     {
-        if (itemInRange != null)
+        if (itemInPickupRange != null)
         {
-            heldItem = itemInRange;
-            itemInRange = null;
+            heldItem = itemInPickupRange;
+            itemInPickupRange = null;
 
             heldItem.transform.rotation = transform.rotation;
 
@@ -89,19 +100,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject == heldItem)
-        {
-            
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            itemInRange = other.gameObject;
+            itemInPickupRange = other.gameObject;
+        } 
+        else if ( other.gameObject.CompareTag("Interactable"))
+        {
+            itemInInteractRange = other.gameObject;
         }
         
     }
@@ -110,7 +117,11 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            itemInRange = null;
+            itemInPickupRange = null;
+        }
+        else if (other.gameObject.CompareTag("Interactable"))
+        {
+            itemInInteractRange = null;
         }
     }
 }
