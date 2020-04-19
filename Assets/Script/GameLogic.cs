@@ -13,7 +13,6 @@ public class GameLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int test = Random.Range(-10, 10);
-        Debug.Log(test);
+        
     }
 }

@@ -61,7 +61,7 @@ public class RackModule : Pickup
 
         if ((Random.Range(FailureThresholdMin, FailureThresholdMax) + Age) > FailurePoint)
         {
-            //TODO Display Failure
+            //TODO Display Failure and Test Algorithm
             Debug.Log(gameObject.name + "Failed");
             CancelInvoke();
             Active = false;
