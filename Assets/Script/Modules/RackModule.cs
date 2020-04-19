@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RackModule : Pickup
+public abstract class RackModule : Pickup
 {
+    [System.Serializable]
     public enum ModuleType
     {
         HardDrive,
@@ -11,7 +12,7 @@ public class RackModule : Pickup
         Core
     }
 
-    public ModuleType Type { get; protected set; }
+    public ModuleType Type;
 
     protected int RawOutput;
 
@@ -54,7 +55,7 @@ public class RackModule : Pickup
         Age += 1;
     }
 
-    protected bool LocalFailCheck()
+    public bool LocalFailCheck()
     {
         if (!Active)
             return false;

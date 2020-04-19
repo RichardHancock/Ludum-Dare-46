@@ -45,6 +45,7 @@ public abstract class Rack : Interactable
         if (module == null || module.Type != CompatibleType)
         {
             Debug.Log("This Module is Incompatible with This Rack");
+            return false;
         }
 
         //Add To Rack
@@ -75,10 +76,15 @@ public abstract class Rack : Interactable
     //Check if the rack should experience a local failure, if so trigger a local failure event
     public virtual bool LocalFailCheck()
     {
-        //TODO Switch to check module failure instead
-        TriggerLocalFailure();
+        foreach (GameObject obj in Modules)
+        {
+            if (obj.GetComponent<RackModule>().LocalFailCheck())
+            {
+                //TODO Display Module Failure
+                break;
+            }
+        }
+
         return true;
     }
-
-    protected abstract void TriggerLocalFailure();
 }

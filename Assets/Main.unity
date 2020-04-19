@@ -1470,7 +1470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fe2f5bf4a971c44e848e4389d3872fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 5
+  MovementSpeed: 80
   SmallItemHoldPoint: {fileID: 468658364}
   LargeItemHoldPoint: {fileID: 582817216}
   FollowCamera: {fileID: 963194225}

@@ -69,9 +69,17 @@ public class PlayerController : MonoBehaviour
 
     private void Drop()
     {
-        if (HeldItem != null && ItemInInteractRange != null)
+        if (HeldItem == null || ItemInInteractRange == null)
+            return;
+
+        if (ItemInInteractRange.GetComponent<Interactable>().InsertItem(HeldItem))
         {
-            Debug.Log("Item can drop");
+            //Item Placed Successfully
+            HeldItem = null;
+        }
+        else
+        {
+            //TODO Error Noise
         }
     }
 
@@ -86,6 +94,9 @@ public class PlayerController : MonoBehaviour
 
             //Need to check if large or small item once implemented later
             HeldItem.transform.SetParent(SmallItemHoldPoint.transform);
+
+            //Make Non Pickupable
+            HeldItem.tag = "";
 
             //Set gravity to false while holding it
             Rigidbody tmpRB = HeldItem.GetComponent<Rigidbody>();
