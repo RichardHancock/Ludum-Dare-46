@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameLogic : MonoBehaviour
+public class RackModule : Pickup
 {
+    public enum ModuleType
+    {
+        HardDrive,
+        Compute,
+        Core
+    }
+
+    public ModuleType Type { get; protected set; }
+
     // Start is called before the first frame update
     void Start()
     {
-        GameData.Money = 1000;
+        
     }
 
     // Update is called once per frame

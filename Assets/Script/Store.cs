@@ -7,13 +7,14 @@ public class Store : Interactable
     // Start is called before the first frame update
     void Start()
     {
-        
+        InteractableFlag = true;
+        InsertableFlag = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameData.money > 999)
+        if (GameData.Money > 999)
         {
             
         }
@@ -21,8 +22,8 @@ public class Store : Interactable
 
     public override bool Interact()
     {
-        GameData.money-=1;
-        Debug.Log("Money: " + GameData.money);
+        GameData.Money-=1;
+        Debug.Log("Money: " + GameData.Money);
         return false;
     }
 

@@ -7,25 +7,23 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
 
-    public float movementSpeed = 5.0f;
+    public float MovementSpeed = 5.0f;
 
-    private Rigidbody rb;
-    private BoxCollider interactionCollider;
+    private Rigidbody RB;
 
-    private GameObject heldItem = null;
-    private GameObject itemInPickupRange = null;
-    private GameObject itemInInteractRange = null;
-    public GameObject smallItemHoldPoint = null;
-    public GameObject largeItemHoldPoint = null;
+    private GameObject HeldItem = null;
+    private GameObject ItemInPickupRange = null;
+    private GameObject ItemInInteractRange = null;
+    public GameObject SmallItemHoldPoint = null;
+    public GameObject LargeItemHoldPoint = null;
 
-    public GameObject followCamera;
-    public Vector3 followCamOffset = new Vector3(0.0f, 8.0f, -10.0f);
+    public GameObject FollowCamera;
+    public Vector3 FollowCamOffset = new Vector3(0.0f, 8.0f, -10.0f);
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        interactionCollider = GetComponent<BoxCollider>();
+        RB = GetComponent<Rigidbody>();
     }
 
     void FixedUpdate()
@@ -34,15 +32,15 @@ public class PlayerController : MonoBehaviour
         float verticalMovement = Input.GetAxisRaw("Vertical");
 
         Vector3 movement = new Vector3(horizontalMovement, 0.0f, verticalMovement);
-        rb.AddForce(movement * movementSpeed);
+        RB.AddForce(movement * MovementSpeed);
         if (movement != Vector3.zero)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15F);
         }
 
         //Follow Camera Update
-        Vector3 cameraPos = transform.position + followCamOffset;
-        followCamera.transform.position = cameraPos;
+        Vector3 cameraPos = transform.position + FollowCamOffset;
+        FollowCamera.transform.position = cameraPos;
     }
 
     // Update is called once per frame
@@ -50,7 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Pickup"))
         {
-            if (heldItem == null)
+            if (HeldItem == null)
             {
                 PickUp();
             }
@@ -61,17 +59,17 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetButtonDown("Interact/Confirm"))
         {
-            if (itemInInteractRange != null)
+            if (ItemInInteractRange != null)
             {
-                Debug.Log("Interaction with " + itemInInteractRange.name);
-                itemInInteractRange.GetComponent<Interactable>().Interact();
+                Debug.Log("Interaction with " + ItemInInteractRange.name);
+                ItemInInteractRange.GetComponent<Interactable>().Interact();
             }
         }
     }
 
     private void Drop()
     {
-        if (heldItem != null && itemInInteractRange != null)
+        if (HeldItem != null && ItemInInteractRange != null)
         {
             Debug.Log("Item can drop");
         }
@@ -79,25 +77,25 @@ public class PlayerController : MonoBehaviour
 
     private void PickUp()
     {
-        if (itemInPickupRange != null)
+        if (ItemInPickupRange != null)
         {
-            heldItem = itemInPickupRange;
-            itemInPickupRange = null;
+            HeldItem = ItemInPickupRange;
+            ItemInPickupRange = null;
 
-            heldItem.transform.rotation = transform.rotation;
+            HeldItem.transform.rotation = transform.rotation;
 
             //Need to check if large or small item once implemented later
-            heldItem.transform.SetParent(smallItemHoldPoint.transform);
+            HeldItem.transform.SetParent(SmallItemHoldPoint.transform);
 
             //Set gravity to false while holding it
-            Rigidbody tmpRB = heldItem.GetComponent<Rigidbody>();
+            Rigidbody tmpRB = HeldItem.GetComponent<Rigidbody>();
             tmpRB.isKinematic = true;
             tmpRB.detectCollisions = false;
 
             //Reset Rotation to zero
-            heldItem.transform.localRotation = Quaternion.identity;
+            HeldItem.transform.localRotation = Quaternion.identity;
             //We re-position the ball on our guide object 
-            heldItem.transform.position = smallItemHoldPoint.transform.position;
+            HeldItem.transform.position = SmallItemHoldPoint.transform.position;
         }
     }
 
@@ -105,11 +103,11 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            itemInPickupRange = other.gameObject;
+            ItemInPickupRange = other.gameObject;
         } 
         else if ( other.gameObject.CompareTag("Interactable"))
         {
-            itemInInteractRange = other.gameObject;
+            ItemInInteractRange = other.gameObject;
         }
         
     }
@@ -118,11 +116,11 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            itemInPickupRange = null;
+            ItemInPickupRange = null;
         }
         else if (other.gameObject.CompareTag("Interactable"))
         {
-            itemInInteractRange = null;
+            ItemInInteractRange = null;
         }
     }
 }

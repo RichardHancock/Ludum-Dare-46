@@ -4,6 +4,6 @@ using UnityEngine;
 
 public static class GameData
 {
-    public static int money { get; set; }
+    public static int Money { get; set; }
 
 }
