@@ -1471,9 +1471,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSpeed: 5
-  SmallItemHoldPoint: {fileID: 0}
-  LargeItemHoldPoint: {fileID: 0}
-  FollowCamera: {fileID: 0}
+  SmallItemHoldPoint: {fileID: 468658364}
+  LargeItemHoldPoint: {fileID: 582817216}
+  FollowCamera: {fileID: 963194225}
   FollowCamOffset: {x: 0, y: 8, z: -10}
 --- !u!54 &1405136225
 Rigidbody:
