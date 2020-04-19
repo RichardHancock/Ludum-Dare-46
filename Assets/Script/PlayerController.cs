@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
             if (itemInInteractRange != null)
             {
                 Debug.Log("Interaction with " + itemInInteractRange.name);
+                itemInInteractRange.GetComponent<Interactable>().Interact();
             }
         }
     }
