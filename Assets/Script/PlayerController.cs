@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     private GameObject heldItem = null;
     private GameObject itemInRange = null;
+    public GameObject smallItemHoldPoint = null;
+    public GameObject largeItemHoldPoint = null;
 
     public GameObject followCamera;
     public Vector3 followCamOffset = new Vector3(0.0f, 8.0f, -10.0f);
@@ -43,19 +47,70 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetButtonDown("Submit"))
+        {
+            if (heldItem == null)
+            {
+                PickUp();
+            }
+            else
+            {
+                Drop();
+            }
+        }
+    }
+
+    private void Drop()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void PickUp()
+    {
+        if (itemInRange != null)
+        {
+            heldItem = itemInRange;
+            itemInRange = null;
+
+            heldItem.transform.rotation = transform.rotation;
+
+            //Need to check if large or small item once implemented later
+            heldItem.transform.SetParent(smallItemHoldPoint.transform);
+
+            //Set gravity to false while holding it
+            Rigidbody tmpRB = heldItem.GetComponent<Rigidbody>();
+            tmpRB.isKinematic = true;
+            tmpRB.detectCollisions = false;
+
+            //Reset Rotation to zero
+            heldItem.transform.localRotation = Quaternion.identity;
+            //We re-position the ball on our guide object 
+            heldItem.transform.position = smallItemHoldPoint.transform.position;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject == heldItem)
+        {
+            
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-
+            itemInRange = other.gameObject;
         }
+        
     }
 
     private void OnTriggerExit(Collider other)
     {
-        
+        if (other.gameObject.CompareTag("Pickup"))
+        {
+            itemInRange = null;
+        }
     }
 }
