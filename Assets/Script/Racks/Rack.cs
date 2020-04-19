@@ -8,7 +8,9 @@ public abstract class Rack : Interactable
 
     protected float Health;
 
-    public RackModule.ModuleType CompatibleType { get; protected set; }
+    public RackModule.ModuleType CompatibleType;
+
+    public AnimationCurve ModuleAnimationCurve;
 
     void Start()
     {
@@ -50,6 +52,7 @@ public abstract class Rack : Interactable
 
         //Add To Rack
         Modules.Add(item);
+        //TODO Animation, Sound, Transform
         return true;
     }
 
