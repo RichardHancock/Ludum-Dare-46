@@ -15,4 +15,24 @@ public class StorageRack : Rack
     {
         
     }
+
+    public override bool InsertItem(GameObject item)
+    {
+        if (!IsInsertable())
+            return false;
+
+        RackModule module = item.GetComponent<RackModule>();
+
+        //Check if compatible with this rack type
+        if (module == null || module.Type != CompatibleType)
+        {
+            Debug.Log("This Module is Incompatible with This Rack");
+            return false;
+        }
+
+        //Add To Rack
+        Modules.Add(item);
+        //TODO Animation, Sound, Transform
+        return true;
+    }
 }

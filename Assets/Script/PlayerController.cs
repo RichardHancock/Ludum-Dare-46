@@ -91,12 +91,13 @@ public class PlayerController : MonoBehaviour
             ItemInPickupRange = null;
 
             HeldItem.transform.rotation = transform.rotation;
+            HeldItem.transform.position = SmallItemHoldPoint.transform.position;
 
             //Need to check if large or small item once implemented later
             HeldItem.transform.SetParent(SmallItemHoldPoint.transform);
 
             //Make Non Pickupable
-            HeldItem.tag = "";
+            HeldItem.tag = "Untagged";
 
             //Set gravity to false while holding it
             Rigidbody tmpRB = HeldItem.GetComponent<Rigidbody>();
@@ -106,7 +107,7 @@ public class PlayerController : MonoBehaviour
             //Reset Rotation to zero
             HeldItem.transform.localRotation = Quaternion.identity;
             //We re-position the ball on our guide object 
-            HeldItem.transform.position = SmallItemHoldPoint.transform.position;
+            //HeldItem.transform.position = SmallItemHoldPoint.transform.position;
         }
     }
 

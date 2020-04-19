@@ -24,6 +24,7 @@ public abstract class Rack : Interactable
     {
         if (Modules.Count > 0)
         {
+            //TODO Tweak Health Deg
             Health -= (0.05f * (float)Modules.Count) * Time.deltaTime;
         }
 
