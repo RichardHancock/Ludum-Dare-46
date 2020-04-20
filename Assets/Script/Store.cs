@@ -43,7 +43,10 @@ public class Store : Interactable
     // Update is called once per frame
     void Update()
     {
-
+        if (UICanvas.gameObject.activeSelf && Input.GetButtonDown("Cancel"))
+        {
+            ExitButtonPressed();
+        }
     }
 
     public override bool Interact()
@@ -52,6 +55,7 @@ public class Store : Interactable
         UICanvas.gameObject.SetActive(true);
         gameData.DisableInput = true;
         SwitchCurrentItem(RackModule.ModuleType.HardDrive);
+        HardDriveButton.Select();
 
         return true;
     }
