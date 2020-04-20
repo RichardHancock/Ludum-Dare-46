@@ -55,8 +55,15 @@ public class GameData : MonoBehaviour
 
     public Dictionary<RackModule.ModuleType, StoreItem> StoreData { get; private set; }
 
+    private List<Rack> storageRacks;
+    private List<Rack> coreRacks;
+    private List<Rack> computeRacks;
+
+
     protected void Start()
     {
+        FindRacks();
+
         gameUI = GameObject.Find("GameUI");
 
         MoneyText = GameObject.Find("MoneyText").GetComponent<Text>();
@@ -142,5 +149,44 @@ public class GameData : MonoBehaviour
     public void ToggleGameUI(bool state)
     {
         gameUI.SetActive(state);
+    }
+
+    private void FindRacks()
+    {
+        storageRacks = new List<Rack>(GameObject.Find("StorageRacks").GetComponentsInChildren<Rack>());
+        coreRacks = new List<Rack>(GameObject.Find("CoreRacks").GetComponentsInChildren<Rack>());
+        computeRacks = new List<Rack>(GameObject.Find("ComputeRacks").GetComponentsInChildren<Rack>());
+
+        Debug.Log(storageRacks.Count + "Storage Racks");
+        Debug.Log(coreRacks.Count + "Core Racks");
+        Debug.Log(computeRacks.Count + "Compute Racks");
+    }
+
+    public int GetTotalModuleTypeRackCapacity(RackModule.ModuleType type)
+    {
+        List<Rack> rackList;
+
+        switch (type) { 
+            case RackModule.ModuleType.HardDrive:
+                rackList = storageRacks;
+                break;
+            case RackModule.ModuleType.Core:
+                rackList = coreRacks;
+                break;
+            case RackModule.ModuleType.Compute:
+                rackList = computeRacks;
+                break;
+            default:
+                throw new System.ArgumentNullException("Invalid Module type");
+        }
+
+        int capacity = 0;
+
+        foreach (Rack rack in rackList)
+        {
+            capacity += rack.GetTotalOutput();
+        }
+
+        return capacity;
     }
 }
