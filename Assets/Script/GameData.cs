@@ -82,6 +82,8 @@ public class GameData : MonoBehaviour
         {
             Debug.LogError("Module Prefabs not assigned to GameData Object");
         }
+
+        gameObject.GetComponent<ScoreSystem>().Begin();
     }
 
     private void UpdateMoneyText()
