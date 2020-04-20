@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class ScoreSystem : MonoBehaviour
 {
-    private int HDDUserVal = 5;
-    private int CoreUserVal = 40;
-    private int ComputeUserVal = 100;
-    private float UserValue = 0.5f;
-    private int UserNum = 40;
+    private float PercentageUserVal = 0.1f;
+    private int CoreHDDScale = 12;
+    private int ComputeHDDScale = 6;
+    private float UserValue = 1.0f;
+    private int UserNum = 0;
     private GameData gameData;
+    private float HDDCapacityPercentage = 0.0f;
+    private float CoreCapacityPercentage = 0.0f;
+    private float ComputeCapacityPercentage = 0.0f;
 
     public void Begin()
     {
@@ -22,10 +25,13 @@ public class ScoreSystem : MonoBehaviour
     {
         while(true)
         {
-            // User num increases by 20 every 10 seconds.
-            //TODO stop increasing if capacity hits 100%
-            UserNum += 20;
-            yield return new WaitForSeconds(10.0f);
+            // User num increases by 12 every 30 seconds unless any capacity is 100% or above.
+            if (HDDCapacityPercentage < 100.0f && CoreCapacityPercentage < 100.0f && ComputeCapacityPercentage < 100.0f)
+            {
+                Debug.Log("User num increase.");
+                UserNum += 12;
+            }
+            yield return new WaitForSeconds(30.0f);
         }
     }
 
@@ -34,23 +40,33 @@ public class ScoreSystem : MonoBehaviour
         while (true)
         {
             // This runs every second.
-            int HDDUserCapacity = 12 * HDDUserVal;//gameData.GetTotalModuleTypeRackCapacity(RackModule.ModuleType.HardDrive) * HDDUserVal;
-            int CoreUserCapacity = 1 * CoreUserVal;//gameData.GetTotalModuleTypeRackCapacity(RackModule.ModuleType.Core) * CoreUserVal;
-            int ComputeUserCapacity = 1 * ComputeUserVal;//gameData.GetTotalModuleTypeRackCapacity(RackModule.ModuleType.Compute) * ComputeUserVal;
+            int HDDUserCapacity = gameData.GetTotalModuleTypeRackCapacity(RackModule.ModuleType.HardDrive);
+            int CoreUserCapacity = gameData.GetTotalModuleTypeRackCapacity(RackModule.ModuleType.Core) * CoreHDDScale;
+            int ComputeUserCapacity = gameData.GetTotalModuleTypeRackCapacity(RackModule.ModuleType.Compute) * ComputeHDDScale;
 
-            int CurrentUserCapacity = HDDUserCapacity + CoreUserCapacity + ComputeUserCapacity;
-
-            float CapacityPercentage = ((float)UserNum / (float)CurrentUserCapacity) * 100.0f;
+            HDDCapacityPercentage = CalculatePercentage((float)(UserNum) * PercentageUserVal, (float)HDDUserCapacity);
+            CoreCapacityPercentage = CalculatePercentage((float)(UserNum) * PercentageUserVal, (float)CoreUserCapacity);
+            ComputeCapacityPercentage = CalculatePercentage((float)(UserNum) * PercentageUserVal, (float)ComputeUserCapacity);
 
             float income = (float)UserNum * UserValue;
-            // If the capacity_percentage is at 50% then the income is equal to the running cost.
-            float CostScale = (income * 2.0f) / 100.0f;
-            float RunningCost = CapacityPercentage * CostScale;
+            // If the total capacity percentage is at 150% then the income is equal to the running cost.
+            float CostScale = (income * 2.0f) / 300.0f;
+            float HDDRunningCost = HDDCapacityPercentage * CostScale;
+            float CoreRunningCost = CoreCapacityPercentage * CostScale;
+            float ComputeRunningCost = ComputeCapacityPercentage * CostScale;
+            float RunningCost = HDDRunningCost + CoreRunningCost + ComputeRunningCost;
             int Profit = (int)(income - RunningCost);
 
             gameData.Money += Profit;
-            Debug.Log("Capacity: " + CapacityPercentage + "%, Users: " + UserNum + ", Profit: " + Profit + "Pounds, Money: " + gameData.Money + "Pounds");
+            Debug.Log("Total Cap: " + (int)(HDDCapacityPercentage + CoreCapacityPercentage + ComputeCapacityPercentage) + "%");
+            Debug.Log("HDD Capacity: " + (int)HDDCapacityPercentage + "%, Core Capacity: " + (int)CoreCapacityPercentage + "%, Compute Capacity: " + (int)ComputeCapacityPercentage + "%, Users: " + UserNum + ", Profit: " + Profit + " Pounds, Money: " + gameData.Money + "Pounds");
             yield return new WaitForSeconds(1.0f);
         }
+    }
+
+    private float CalculatePercentage(float A, float B) 
+    { 
+        //A is ?% of B
+        return (A / B) * 100.0f;
     }
 }
