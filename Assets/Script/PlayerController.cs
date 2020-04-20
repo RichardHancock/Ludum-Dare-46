@@ -110,11 +110,16 @@ public class PlayerController : MonoBehaviour
             tmpRB.isKinematic = true;
             tmpRB.detectCollisions = false;
 
+            bool largeItem = HeldItem.GetComponent<RackModule>().LargeItem;
+
+            GameObject holdPoint = (largeItem ? LargeItemHoldPoint : SmallItemHoldPoint);
+
+
             HeldItem.transform.rotation = transform.rotation;
-            HeldItem.transform.position = SmallItemHoldPoint.transform.position;
+            HeldItem.transform.position = holdPoint.transform.position;
 
             //Need to check if large or small item once implemented later
-            HeldItem.transform.SetParent(SmallItemHoldPoint.transform, true);
+            HeldItem.transform.SetParent(holdPoint.transform, true);
 
             //Make Non Pickupable
             HeldItem.tag = "Untagged";
@@ -126,6 +131,9 @@ public class PlayerController : MonoBehaviour
             //HeldItem.transform.localRotation = Quaternion.identity;
             //We re-position the ball on our guide object 
             HeldItem.transform.localPosition = Vector3.zero;
+
+            if(largeItem)
+                HeldItem.transform.Rotate(90, 0, 0);
         }
     }
 
