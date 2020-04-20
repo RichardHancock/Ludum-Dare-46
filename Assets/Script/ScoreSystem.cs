@@ -51,6 +51,11 @@ public class ScoreSystem : MonoBehaviour
             float income = (float)UserNum * UserValue;
             // If the total capacity percentage is at 150% then the income is equal to the running cost.
             float CostScale = (income * 2.0f) / 300.0f;
+            // Hack to handle dividing by 0
+            if (income == 0)
+            {
+                CostScale = 0;
+            }
             float HDDRunningCost = HDDCapacityPercentage * CostScale;
             float CoreRunningCost = CoreCapacityPercentage * CostScale;
             float ComputeRunningCost = ComputeCapacityPercentage * CostScale;
@@ -65,7 +70,12 @@ public class ScoreSystem : MonoBehaviour
     }
 
     private float CalculatePercentage(float A, float B) 
-    { 
+    {
+        // Hack to handle dividing by 0
+        if (A == 0.0f || B == 0.0f)
+        {
+            return 0.0f;
+        }
         //A is ?% of B
         return (A / B) * 100.0f;
     }
