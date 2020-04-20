@@ -15,6 +15,8 @@ public class Store : Interactable
     public Text ItemName, ItemPrice;
     public RawImage ItemImage;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +38,6 @@ public class Store : Interactable
         BuyButton.onClick.AddListener(BuyButtonPressed);
         ExitButton.onClick.AddListener(ExitButtonPressed);
 
-        
     }
 
     // Update is called once per frame

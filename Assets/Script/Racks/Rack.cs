@@ -3,6 +3,8 @@ using UnityEngine;
 
 public abstract class Rack : Interactable
 {
+    protected GameData gameData;
+
     public int MaxCapacity { get; protected set; }
     protected List<GameObject> Modules;
     protected List<GameObject> BayPositions;
@@ -24,6 +26,8 @@ public abstract class Rack : Interactable
         InsertableFlag = true;
         MaxCapacity = 0;
         Health = 100.0f;
+
+        gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
     }
 
     protected virtual void Update()
@@ -36,7 +40,7 @@ public abstract class Rack : Interactable
 
         if (Health < 50.0f)
         {
-            Debug.Log("Low Health");
+            //Debug.Log("Low Health");
         }
         
     }
@@ -78,7 +82,8 @@ public abstract class Rack : Interactable
         if (moduleFailed)
         {
             ResetFailedModule();
-
+            gameData.PlayerAudio.clip = gameData.ServerStart;
+            gameData.PlayerAudio.Play();
             Destroy(item);
 
             return true;
@@ -104,6 +109,8 @@ public abstract class Rack : Interactable
 
         module.SetAnimationPoints(item.transform.position, bayPos.position);
 
+        gameData.PlayerAudio.clip = gameData.ServerStart;
+        gameData.PlayerAudio.Play();
 
         module.ActivateModule();
         //TODO Sound
@@ -113,7 +120,7 @@ public abstract class Rack : Interactable
     public override bool Interact()
     {
         //TODO: Implement interact on server to resolve a failure or dust it
-        throw new System.NotImplementedException();
+        return false;
     }
 
     public virtual int GetTotalOutput()
@@ -139,6 +146,8 @@ public abstract class Rack : Interactable
         {
             if (obj.GetComponent<RackModule>().LocalFailCheck())
             {
+                gameData.PlayerAudio.clip = gameData.ServerFail;
+                gameData.PlayerAudio.Play();
                 //TODO Display Module Failure
                 moduleFailed = true;
                 smokeEffect.Play();

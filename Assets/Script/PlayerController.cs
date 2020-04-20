@@ -21,12 +21,16 @@ public class PlayerController : MonoBehaviour
     public GameObject FollowCamera;
     public Vector3 FollowCamOffset = new Vector3(0.0f, 8.0f, -10.0f);
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
         gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
 
         RB = GetComponent<Rigidbody>();
+
+        
     }
 
     void FixedUpdate()
@@ -76,7 +80,12 @@ public class PlayerController : MonoBehaviour
     private void Drop()
     {
         if (HeldItem == null || ItemInInteractRange == null)
+        {
+            gameData.PlayerAudio.clip = gameData.Error;
+            gameData.PlayerAudio.Play();
             return;
+        }
+            
 
         if (ItemInInteractRange.GetComponent<Interactable>().InsertItem(HeldItem))
         {
@@ -85,7 +94,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            //TODO Error Noise
+            gameData.PlayerAudio.clip = gameData.Error;
+            gameData.PlayerAudio.Play();
         }
     }
 

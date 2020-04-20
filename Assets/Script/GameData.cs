@@ -38,6 +38,13 @@ public class GameData : MonoBehaviour
     public bool DisableInput = false;
     private GameObject gameUI;
 
+    public AudioSource PlayerAudio;
+
+    public AudioClip Error;
+    public AudioClip Buy;
+    public AudioClip ServerStart;
+    public AudioClip ServerFail;
+
 
     public struct StoreItem
     {
@@ -164,12 +171,17 @@ public class GameData : MonoBehaviour
         if (StoreDeliveryPoint.GetComponent<IsTriggered>().Triggered())
         {
             //TODO Inform player the Spawn is blocked
+            PlayerAudio.clip = Error;
+            PlayerAudio.Play();
             Debug.Log("Item in way of store spawn");
             return false;
         }
 
         //Charge the Money
         Money -= item.Price;
+
+        PlayerAudio.clip = Buy;
+        PlayerAudio.Play();
 
         //Spawn Item
         Instantiate(item.Prefab, StoreDeliveryPoint.transform.position, Quaternion.identity);
@@ -181,6 +193,8 @@ public class GameData : MonoBehaviour
     {
         StoreItem item = StoreData[type];
         Money += item.Price;
+        PlayerAudio.clip = Buy;
+        PlayerAudio.Play();
         Debug.Log("Item Sold");
     }
 
