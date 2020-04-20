@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Store : Interactable
 {
+    private GameData gameData;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
+
         InteractableFlag = true;
         InsertableFlag = false;
     }
@@ -14,7 +18,7 @@ public class Store : Interactable
     // Update is called once per frame
     void Update()
     {
-        if (GameData.Money > 999)
+        if (gameData.Money > 999)
         {
             
         }
@@ -22,8 +26,8 @@ public class Store : Interactable
 
     public override bool Interact()
     {
-        GameData.Money-=1;
-        Debug.Log("Money: " + GameData.Money);
+        gameData.Money-=1;
+        Debug.Log("Money: " + gameData.Money);
         return false;
     }
 

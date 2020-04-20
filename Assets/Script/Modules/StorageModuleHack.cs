@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class StorageModuleHack : MonoBehaviour
 {
+    private GameData gameData;
+
     private List<GameObject> hardDrives;
 
     private int maxCapacity = 12;
@@ -12,6 +14,8 @@ public class StorageModuleHack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
+
         hardDrives = new List<GameObject>();
     }
 
@@ -65,7 +69,7 @@ public class StorageModuleHack : MonoBehaviour
 
     private void UpdateTexture()
     {
-        Texture2D texture = GameData.storageModuleTextures[hardDrives.Count];
+        Texture2D texture = gameData.StorageModuleTextures[hardDrives.Count];
 
         gameObject.GetComponent<Renderer>().material.mainTexture = texture;
     }
