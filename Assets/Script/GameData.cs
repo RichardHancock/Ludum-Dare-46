@@ -200,13 +200,28 @@ public class GameData : MonoBehaviour
         for (int i=0; i< 12; i++)
         {
             GameObject hardDrive = Instantiate(StoreData[RackModule.ModuleType.HardDrive].Prefab);
+            
+            hardDrive.GetComponent<Rigidbody>().isKinematic = true;
+            hardDrive.GetComponent<Rigidbody>().detectCollisions = false;
+            hardDrive.tag = "Untagged";
+
             storageRacks[0].InsertItem(hardDrive);
         }
 
         GameObject compModule = Instantiate(StoreData[RackModule.ModuleType.Compute].Prefab);
+
+        compModule.GetComponent<Rigidbody>().isKinematic = true;
+        compModule.GetComponent<Rigidbody>().detectCollisions = false;
+        compModule.tag = "Untagged";
+
         computeRacks[0].InsertItem(compModule);
 
         GameObject coreModule = Instantiate(StoreData[RackModule.ModuleType.Core].Prefab);
+
+        coreModule.GetComponent<Rigidbody>().isKinematic = true;
+        coreModule.GetComponent<Rigidbody>().detectCollisions = false;
+        coreModule.tag = "Untagged";
+
         coreRacks[0].InsertItem(coreModule);
     }
 }
