@@ -37,6 +37,7 @@ public class GameData : MonoBehaviour
     [HideInInspector]
     public bool DisableInput = false;
     private GameObject gameUI;
+    private GameObject helpUI;
 
     public AudioSource PlayerAudio;
 
@@ -74,6 +75,7 @@ public class GameData : MonoBehaviour
         FindRacks();
 
         gameUI = GameObject.Find("GameUI");
+        helpUI = GameObject.Find("HelpUI");
 
         MoneyText = GameObject.Find("MoneyText").GetComponent<Text>();
         Money = 1000;
@@ -106,9 +108,9 @@ public class GameData : MonoBehaviour
             Application.Quit();
         }
 
-        if (Input.GetButtonDown("TestKey"))
+        if (Input.GetButtonDown("HelpToggle"))
         {
-            
+            helpUI.SetActive(!helpUI.activeSelf);
         }
     }
 
