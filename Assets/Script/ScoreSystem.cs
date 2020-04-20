@@ -67,8 +67,20 @@ public class ScoreSystem : MonoBehaviour
                 CostScale = 0;
             }
             float HDDRunningCost = HDDCapacityPercentage * CostScale;
+            if (HDDRunningCost == 0)
+            {
+                HDDRunningCost = 10;
+            }
             float CoreRunningCost = CoreCapacityPercentage * CostScale;
+            if (CoreRunningCost == 0)
+            {
+                CoreRunningCost = 10;
+            }
             float ComputeRunningCost = ComputeCapacityPercentage * CostScale;
+            if (ComputeRunningCost == 0)
+            {
+                ComputeRunningCost = 10;
+            }
             float RunningCost = HDDRunningCost + CoreRunningCost + ComputeRunningCost;
             int Profit = (int)(income - RunningCost);
 
