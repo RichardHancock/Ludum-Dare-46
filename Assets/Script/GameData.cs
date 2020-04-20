@@ -84,6 +84,8 @@ public class GameData : MonoBehaviour
         }
 
         CreateInitialServerLoadout();
+
+        gameObject.GetComponent<ScoreSystem>().Begin();
     }
 
     private void UpdateMoneyText()
