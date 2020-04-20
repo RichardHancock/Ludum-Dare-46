@@ -127,9 +127,9 @@ MonoBehaviour:
   Type: 0
   RawOutput: 1
   Animated: 0
-  FailureThresholdMin: -24
-  FailureThresholdMax: 24
-  FailurePoint: 30
+  FailureThresholdMin: 0
+  FailureThresholdMax: 15
+  FailurePoint: 19
   ModuleAnimationCurve:
     serializedVersion: 2
     m_Curve: []

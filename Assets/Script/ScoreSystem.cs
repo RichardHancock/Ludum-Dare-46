@@ -38,6 +38,9 @@ public class ScoreSystem : MonoBehaviour
                 Debug.Log("User num increase.");
                 UserNum += 12;
             }
+
+            gameData.TriggerFailure(Random.Range(0, 3));
+
             yield return new WaitForSeconds(30.0f);
         }
     }
@@ -72,7 +75,7 @@ public class ScoreSystem : MonoBehaviour
             gameData.Money += Profit;
             //Debug.Log("Total Cap: " + (int)(HDDCapacityPercentage + CoreCapacityPercentage + ComputeCapacityPercentage) + "%");
             //Debug.Log("HDD Capacity: " + (int)HDDCapacityPercentage + "%, Core Capacity: " + (int)CoreCapacityPercentage + "%, Compute Capacity: " + (int)ComputeCapacityPercentage + "%, Users: " + UserNum + ", Profit: " + Profit + " Pounds, Money: " + gameData.Money + "Pounds");
-            string prefix = (Profit > 0) ? "+" : "";
+            string prefix = (Profit > 0) ? "+" : "-";
             
             
             profitText.text = prefix + "£" + System.Math.Abs(Profit);

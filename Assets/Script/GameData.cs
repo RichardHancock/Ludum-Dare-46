@@ -108,29 +108,7 @@ public class GameData : MonoBehaviour
 
         if (Input.GetButtonDown("TestKey"))
         {
-            foreach (StorageRack rack in storageRacks)
-            {
-                if (rack.LocalFailCheck())
-                {
-                    return;
-                }
-            }
-
-            foreach (ComputeRack rack in computeRacks)
-            {
-                if (rack.LocalFailCheck())
-                {
-                    return;
-                }
-            }
-
-            foreach (CoreRack rack in coreRacks)
-            {
-                if (rack.LocalFailCheck())
-                {
-                    return;
-                }
-            }
+            
         }
     }
 
@@ -276,5 +254,39 @@ public class GameData : MonoBehaviour
         coreModule.tag = "Untagged";
 
         coreRacks[0].InsertItem(coreModule);
+    }
+
+    public void TriggerFailure(int replayability)
+    {
+        if (replayability == 0)
+        {
+            foreach (StorageRack rack in storageRacks)
+            {
+                if (rack.LocalFailCheck())
+                {
+                    return;
+                }
+            }
+        } 
+        else if (replayability == 1)
+        {
+            foreach (ComputeRack rack in computeRacks)
+            {
+                if (rack.LocalFailCheck())
+                {
+                    return;
+                }
+            }
+        }
+        else
+        {
+            foreach(CoreRack rack in coreRacks)
+        {
+                if (rack.LocalFailCheck())
+                {
+                    return;
+                }
+            }
+        }
     }
 }
