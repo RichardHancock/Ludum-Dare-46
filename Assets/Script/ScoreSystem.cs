@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreSystem : MonoBehaviour
 {
@@ -13,6 +14,12 @@ public class ScoreSystem : MonoBehaviour
     private float HDDCapacityPercentage = 0.0f;
     private float CoreCapacityPercentage = 0.0f;
     private float ComputeCapacityPercentage = 0.0f;
+
+    public Text profitText;
+    public Text usersText;
+    public Slider coreSlider;
+    public Slider computeSlider;
+    public Slider storageSlider;
 
     public void Begin()
     {
@@ -63,8 +70,18 @@ public class ScoreSystem : MonoBehaviour
             int Profit = (int)(income - RunningCost);
 
             gameData.Money += Profit;
-            Debug.Log("Total Cap: " + (int)(HDDCapacityPercentage + CoreCapacityPercentage + ComputeCapacityPercentage) + "%");
-            Debug.Log("HDD Capacity: " + (int)HDDCapacityPercentage + "%, Core Capacity: " + (int)CoreCapacityPercentage + "%, Compute Capacity: " + (int)ComputeCapacityPercentage + "%, Users: " + UserNum + ", Profit: " + Profit + " Pounds, Money: " + gameData.Money + "Pounds");
+            //Debug.Log("Total Cap: " + (int)(HDDCapacityPercentage + CoreCapacityPercentage + ComputeCapacityPercentage) + "%");
+            //Debug.Log("HDD Capacity: " + (int)HDDCapacityPercentage + "%, Core Capacity: " + (int)CoreCapacityPercentage + "%, Compute Capacity: " + (int)ComputeCapacityPercentage + "%, Users: " + UserNum + ", Profit: " + Profit + " Pounds, Money: " + gameData.Money + "Pounds");
+            string prefix = (Profit > 0) ? "+" : "";
+            
+            
+            profitText.text = prefix + "£" + System.Math.Abs(Profit);
+            usersText.text = (UserNum * 1000) + " Users";
+            coreSlider.value = CoreCapacityPercentage;
+            computeSlider.value = ComputeCapacityPercentage;
+            storageSlider.value = HDDCapacityPercentage;
+
+
             yield return new WaitForSeconds(1.0f);
         }
     }
