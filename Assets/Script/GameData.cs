@@ -112,6 +112,19 @@ public class GameData : MonoBehaviour
         {
             helpUI.SetActive(!helpUI.activeSelf);
         }
+
+        /*
+        if (Input.GetButtonDown("Pickup"))
+        {
+            Money -= 500;
+        }*/
+
+
+        if (Money < -100)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Lose");
+            return; 
+        }    
     }
 
     private void UpdateMoneyText()
