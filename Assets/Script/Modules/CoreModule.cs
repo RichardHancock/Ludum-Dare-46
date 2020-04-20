@@ -8,5 +8,6 @@ public class CoreModule : RackModule
     void Start()
     {
         Type = ModuleType.Core;
+        Animated = true;
     }
 }

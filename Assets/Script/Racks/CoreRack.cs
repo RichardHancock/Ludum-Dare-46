@@ -11,5 +11,8 @@ public class CoreRack : Rack
 
         CompatibleType = RackModule.ModuleType.Core;
         MaxCapacity = 4;
+
+        //This needs to be here rather than Base class to use different Capacity
+        FindBays();
     }
 }

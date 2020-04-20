@@ -135,7 +135,8 @@ GameObject:
   - component: {fileID: 4700816313774873737}
   - component: {fileID: 4352624822977996479}
   - component: {fileID: 8024051538084059718}
-  - component: {fileID: 307954818195928973}
+  - component: {fileID: 8178048616386633774}
+  - component: {fileID: 5759551321853996159}
   m_Layer: 0
   m_Name: StorageRack
   m_TagString: Interactable
@@ -208,7 +209,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &307954818195928973
+--- !u!65 &8178048616386633774
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8604125236549349018}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.012059098, y: 0.026000062, z: 0.016961824}
+  m_Center: {x: 0.000019669998, y: 0.012978676, z: -0.0002243775}
+--- !u!114 &5759551321853996159
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,34 +231,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8604125236549349018}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5ab3056e4aa2d44aa17d9077f334b42, type: 3}
+  m_Script: {fileID: 11500000, guid: 7028b37af6769d7419c77a1a0b829d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CompatibleType: 0
-  ModuleAnimationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  AnimationStartPosOffset: 0
 --- !u!1001 &440715812706584087
 PrefabInstance:
   m_ObjectHideFlags: 0

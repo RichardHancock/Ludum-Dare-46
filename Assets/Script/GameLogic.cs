@@ -31,7 +31,7 @@ public class GameLogic : MonoBehaviour
             if (texture == null)
                 Debug.LogError("Could not load Storage Module Texture " + i);
 
-            GameData.storageModuleTextures.Insert(i, texture);
+            GameData.storageModuleTextures.Add(texture);
         }
     }
 }

@@ -8,6 +8,7 @@ public class ComputeModule : RackModule
     void Start()
     {
         Type = ModuleType.Compute;
+        Animated = true;
     }
 
 }

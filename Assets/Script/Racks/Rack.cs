@@ -5,15 +5,16 @@ public abstract class Rack : Interactable
 {
     public int MaxCapacity { get; protected set; }
     protected List<GameObject> Modules;
-
+    protected List<GameObject> BayPositions;
     protected float Health;
 
     public RackModule.ModuleType CompatibleType;
 
-    public AnimationCurve ModuleAnimationCurve;
+    public float AnimationStartPosOffset = 0.0001f;
 
     protected virtual void Start()
     {
+        BayPositions = new List<GameObject>();
         Modules = new List<GameObject>();
         InteractableFlag = true;
         InsertableFlag = true;
@@ -36,6 +37,27 @@ public abstract class Rack : Interactable
         
     }
 
+    protected virtual void FindBays()
+    {
+        for (int i = 1; i <= MaxCapacity; i++)
+        {
+            Transform tform = gameObject.transform.Find("Bay" + i);
+
+            if (tform == null)
+                Debug.LogError("Couldn't Find a Bay in Storage Server");
+
+            BayPositions.Add(tform.gameObject);
+        }
+    }
+
+    // -1 on fail
+    protected virtual int FindFirstAvailableBay()
+    {
+        int result = Modules.Count;
+
+        return result < MaxCapacity ? result - 1 : -1;
+    }
+
     public override bool IsInsertable() => InsertableFlag && (Modules.Count < MaxCapacity);
 
     public override bool InsertItem(GameObject item)
@@ -52,9 +74,27 @@ public abstract class Rack : Interactable
             return false;
         }
 
+
+        //int bay = FindFirstAvailableBay();
+        //if (bay == -1)
+            //Debug.LogError("No Available Bay THIS SHOULDN'T EVER Happen");
+
         //Add To Rack
         Modules.Add(item);
-        //TODO Animation, Sound, Transform
+
+        //Animation Setup
+        Transform bayPos = BayPositions[Modules.Count-1].transform;
+
+        item.transform.position = bayPos.position + (bayPos.forward * -AnimationStartPosOffset);
+        item.transform.rotation = Quaternion.identity;
+
+        item.transform.SetParent(bayPos);
+
+        module.SetAnimationPoints(item.transform.position, bayPos.position);
+
+
+        module.ActivateModule();
+        //TODO Sound
         return true;
     }
 

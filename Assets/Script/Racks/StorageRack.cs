@@ -13,6 +13,17 @@ public class StorageRack : Rack
         InteractableFlag = true;
         InsertableFlag = true;
 
+        FindBays();
+    }
+
+    // Update is called once per frame
+    protected override void Update()
+    {
+        //This is here to disable health
+    }
+
+    protected override void FindBays()
+    {
         //Get all storage modules and store them in order
         for (int i = 1; i <= MaxCapacity; i++)
         {
@@ -22,22 +33,16 @@ public class StorageRack : Rack
                 Debug.LogError("Couldn't Find a Bay in Storage Server");
 
             tform = tform.GetChild(0);
-            
+
             if (tform == null)
                 Debug.LogError("Couldn't Find a Module under Bay in Storage Server");
 
-            Modules.Insert(i - 1, tform.gameObject);
+            Modules.Add(tform.gameObject);
         }
     }
 
-    // Update is called once per frame
-    protected override void Update()
-    {
-        //This is here to disable health
-    }
-
     //-1 if none available
-    protected int findIndexOfFirstAvailableStorageBay()
+    protected int FindIndexOfFirstAvailableStorageBay()
     {
         for (int i = 0; i < MaxCapacity; i++)
         {
@@ -50,7 +55,7 @@ public class StorageRack : Rack
         return -1;
     }
 
-    public override bool IsInsertable() => (findIndexOfFirstAvailableStorageBay() != -1);
+    public override bool IsInsertable() => (FindIndexOfFirstAvailableStorageBay() != -1);
 
     public override bool InsertItem(GameObject item)
     {
@@ -67,7 +72,7 @@ public class StorageRack : Rack
         }
 
 
-        int bayIndex = findIndexOfFirstAvailableStorageBay();
+        int bayIndex = FindIndexOfFirstAvailableStorageBay();
 
         //Add To Rack
         Modules[bayIndex].GetComponent<StorageModuleHack>().AddHardDrive(item);
