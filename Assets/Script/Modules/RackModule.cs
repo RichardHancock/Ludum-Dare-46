@@ -69,8 +69,6 @@ public abstract class RackModule : Pickup
             AnimationFinished = true;
 
         Active = true;
-
-        Debug.Log(Active);
     }
 
     public void ResetModule()
