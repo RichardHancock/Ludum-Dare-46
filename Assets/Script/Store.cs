@@ -12,20 +12,18 @@ public class Store : Interactable
         gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
 
         InteractableFlag = true;
-        InsertableFlag = false;
+        InsertableFlag = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (gameData.Money > 999)
-        {
-            
-        }
+        
     }
 
     public override bool Interact()
     {
+        //TODO Toggle Store UI
         gameData.Money-=1;
         Debug.Log("Money: " + gameData.Money);
         return false;
@@ -33,7 +31,10 @@ public class Store : Interactable
 
     public override bool InsertItem(GameObject item)
     {
-        Debug.LogWarning("InsertItem called on Store");
-        return false;
+        gameData.SellModule(item.GetComponent<RackModule>().Type);
+
+        Destroy(item);
+
+        return true;
     }
 }
