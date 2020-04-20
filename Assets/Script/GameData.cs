@@ -101,6 +101,11 @@ public class GameData : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         if (Input.GetButtonDown("TestKey"))
         {
             foreach (StorageRack rack in storageRacks)

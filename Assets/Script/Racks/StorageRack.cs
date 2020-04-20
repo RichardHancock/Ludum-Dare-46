@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class StorageRack : Rack
 {
-    // Start is called before the first frame update
-    protected override void Start()
+    protected override void Awake()
     {
         Modules = new List<GameObject>();
         CompatibleType = RackModule.ModuleType.HardDrive;
@@ -16,6 +15,11 @@ public class StorageRack : Rack
         FindBays();
 
         gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
+    }
+
+    protected override void Start()
+    {
+        
     }
 
     // Update is called once per frame

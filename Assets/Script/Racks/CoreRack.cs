@@ -5,9 +5,9 @@ using UnityEngine;
 public class CoreRack : Rack
 {
     // Start is called before the first frame update
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         CompatibleType = RackModule.ModuleType.Core;
         MaxCapacity = 4;

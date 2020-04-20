@@ -18,7 +18,7 @@ public abstract class Rack : Interactable
     //A local module has failed so the next module delivered will replace it
     protected bool moduleFailed = false;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         BayPositions = new List<GameObject>();
         Modules = new List<GameObject>();
@@ -28,6 +28,11 @@ public abstract class Rack : Interactable
         Health = 100.0f;
 
         gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
+    }
+
+    protected virtual void Start()
+    {
+        
     }
 
     protected virtual void Update()

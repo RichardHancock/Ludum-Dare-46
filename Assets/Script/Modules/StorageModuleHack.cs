@@ -11,12 +11,17 @@ public class StorageModuleHack : MonoBehaviour
 
     private int maxCapacity = 12;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
 
         hardDrives = new List<GameObject>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame

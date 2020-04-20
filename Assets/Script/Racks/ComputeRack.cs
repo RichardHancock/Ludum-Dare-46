@@ -5,9 +5,9 @@ using UnityEngine;
 public class ComputeRack : Rack
 {
     // Start is called before the first frame update
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         CompatibleType = RackModule.ModuleType.Compute;
         MaxCapacity = 4;
