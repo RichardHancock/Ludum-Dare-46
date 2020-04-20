@@ -44,12 +44,14 @@ public class GameData : MonoBehaviour
         public int Price;
         public GameObject Prefab;
         public string Name;
+        public Texture2D Image;
 
-        public StoreItem(int price, GameObject prefab, string name)
+        public StoreItem(int price, GameObject prefab, string name, Texture2D image)
         {
             Price = price;
             Prefab = prefab;
             Name = name;
+            Image = image;
         }
     }
 
@@ -69,11 +71,13 @@ public class GameData : MonoBehaviour
         MoneyText = GameObject.Find("MoneyText").GetComponent<Text>();
         Money = 1000;
 
+
+
         StoreData = new Dictionary<RackModule.ModuleType, StoreItem>()
         {
-            { RackModule.ModuleType.Compute, new StoreItem(ComputeModulePrice, ComputeModulePrefab, "Compute Server")},
-            { RackModule.ModuleType.Core, new StoreItem(CoreModulePrice, CoreModulePrefab, "Core Server")},
-            { RackModule.ModuleType.HardDrive, new StoreItem(HardDrivePrice, HardDrivePrefab, "Hard Drive")},
+            { RackModule.ModuleType.Compute, new StoreItem(ComputeModulePrice, ComputeModulePrefab, "Compute Server", Resources.Load<Texture2D>("Textures/compute_image"))},
+            { RackModule.ModuleType.Core, new StoreItem(CoreModulePrice, CoreModulePrefab, "Core Server", Resources.Load<Texture2D>("Textures/core_image"))},
+            { RackModule.ModuleType.HardDrive, new StoreItem(HardDrivePrice, HardDrivePrefab, "Hard Drive", Resources.Load<Texture2D>("Textures/hdd_image"))},
         };
 
         LoadTextures();

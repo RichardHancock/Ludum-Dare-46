@@ -13,7 +13,7 @@ public class Store : Interactable
 
     public Button HardDriveButton, CoreModuleButton, ComputeModuleButton, BuyButton, ExitButton;
     public Text ItemName, ItemPrice;
-    public Image ItemImage;
+    public RawImage ItemImage;
 
     // Start is called before the first frame update
     void Start()
@@ -71,7 +71,7 @@ public class Store : Interactable
         GameData.StoreItem item = gameData.StoreData[itemType];
         ItemName.text = item.Name;
         ItemPrice.text = "£" + item.Price;
-        //ItemImage =
+        ItemImage.texture = item.Image;
     }
 
     public void HardDriveButtonPressed()
