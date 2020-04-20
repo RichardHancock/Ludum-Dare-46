@@ -82,6 +82,7 @@ public abstract class RackModule : Pickup
     private void AgeModule()
     {
         Age += 1;
+        Debug.Log("AGE"+ Age);
     }
 
     public bool LocalFailCheck()

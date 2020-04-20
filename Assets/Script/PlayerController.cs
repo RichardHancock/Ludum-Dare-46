@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    GameData gameData;
 
     public float MovementSpeed = 5.0f;
 
@@ -23,11 +24,16 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
+
         RB = GetComponent<Rigidbody>();
     }
 
     void FixedUpdate()
     {
+        if (gameData.DisableInput)
+            return;
+
         float horizontalMovement = Input.GetAxisRaw("Horizontal");
         float verticalMovement = Input.GetAxisRaw("Vertical");
 
@@ -46,7 +52,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Pickup"))
+        if (!gameData.DisableInput && Input.GetButtonDown("Pickup"))
         {
             if (HeldItem == null)
             {
@@ -57,7 +63,7 @@ public class PlayerController : MonoBehaviour
                 Drop();
             }
         }
-        else if (Input.GetButtonDown("Interact/Confirm"))
+        else if (!gameData.DisableInput && Input.GetButtonDown("Interact/Confirm"))
         {
             if (ItemInInteractRange != null)
             {
@@ -90,24 +96,26 @@ public class PlayerController : MonoBehaviour
             HeldItem = ItemInPickupRange;
             ItemInPickupRange = null;
 
+            Rigidbody tmpRB = HeldItem.GetComponent<Rigidbody>();
+            tmpRB.isKinematic = true;
+            tmpRB.detectCollisions = false;
+
             HeldItem.transform.rotation = transform.rotation;
             HeldItem.transform.position = SmallItemHoldPoint.transform.position;
 
             //Need to check if large or small item once implemented later
-            HeldItem.transform.SetParent(SmallItemHoldPoint.transform);
+            HeldItem.transform.SetParent(SmallItemHoldPoint.transform, true);
 
             //Make Non Pickupable
             HeldItem.tag = "Untagged";
 
             //Set gravity to false while holding it
-            Rigidbody tmpRB = HeldItem.GetComponent<Rigidbody>();
-            tmpRB.isKinematic = true;
-            tmpRB.detectCollisions = false;
+            
 
             //Reset Rotation to zero
-            HeldItem.transform.localRotation = Quaternion.identity;
+            //HeldItem.transform.localRotation = Quaternion.identity;
             //We re-position the ball on our guide object 
-            //HeldItem.transform.position = SmallItemHoldPoint.transform.position;
+            HeldItem.transform.localPosition = Vector3.zero;
         }
     }
 

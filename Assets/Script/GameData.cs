@@ -28,21 +28,28 @@ public class GameData : MonoBehaviour
     public GameObject CoreModulePrefab;
     public GameObject ComputeModulePrefab;
 
-    public Transform StoreDeliveryPoint;
+    public GameObject StoreDeliveryPoint;
 
     public int HardDrivePrice;
     public int CoreModulePrice;
     public int ComputeModulePrice;
 
+    [HideInInspector]
+    public bool DisableInput = false;
+    private GameObject gameUI;
+
+
     public struct StoreItem
     {
         public int Price;
         public GameObject Prefab;
+        public string Name;
 
-        public StoreItem(int price, GameObject prefab)
+        public StoreItem(int price, GameObject prefab, string name)
         {
             Price = price;
             Prefab = prefab;
+            Name = name;
         }
     }
 
@@ -50,14 +57,16 @@ public class GameData : MonoBehaviour
 
     protected void Start()
     {
+        gameUI = GameObject.Find("GameUI");
+
         MoneyText = GameObject.Find("MoneyText").GetComponent<Text>();
         Money = 1000;
 
         StoreData = new Dictionary<RackModule.ModuleType, StoreItem>()
         {
-            { RackModule.ModuleType.Compute, new StoreItem(ComputeModulePrice, ComputeModulePrefab)},
-            { RackModule.ModuleType.Core, new StoreItem(CoreModulePrice, CoreModulePrefab)},
-            { RackModule.ModuleType.HardDrive, new StoreItem(HardDrivePrice, HardDrivePrefab)},
+            { RackModule.ModuleType.Compute, new StoreItem(ComputeModulePrice, ComputeModulePrefab, "Compute Server")},
+            { RackModule.ModuleType.Core, new StoreItem(CoreModulePrice, CoreModulePrefab, "Core Server")},
+            { RackModule.ModuleType.HardDrive, new StoreItem(HardDrivePrice, HardDrivePrefab, "Hard Drive")},
         };
 
         LoadTextures();
@@ -98,10 +107,19 @@ public class GameData : MonoBehaviour
     {
         StoreItem item = StoreData[type];
 
+        /*
         if (Money < item.Price)
         {
-            //TODO Inform player they don't have enough money to buy module
+            
             Debug.Log("Not enough money");
+            return false;
+        }
+        */
+
+        if (StoreDeliveryPoint.GetComponent<IsTriggered>().Triggered())
+        {
+            //TODO Inform player the Spawn is blocked
+            Debug.Log("Item in way of store spawn");
             return false;
         }
 
@@ -109,7 +127,7 @@ public class GameData : MonoBehaviour
         Money -= item.Price;
 
         //Spawn Item
-        Instantiate(item.Prefab, StoreDeliveryPoint.position, Quaternion.identity);
+        Instantiate(item.Prefab, StoreDeliveryPoint.transform.position, Quaternion.identity);
 
         return true;
     }
@@ -118,5 +136,11 @@ public class GameData : MonoBehaviour
     {
         StoreItem item = StoreData[type];
         Money += item.Price;
+        Debug.Log("Item Sold");
+    }
+
+    public void ToggleGameUI(bool state)
+    {
+        gameUI.SetActive(state);
     }
 }

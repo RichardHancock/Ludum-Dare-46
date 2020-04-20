@@ -31,8 +31,10 @@ public class StorageModuleHack : MonoBehaviour
             return false;
 
         //Module validity is checked in calling class (HACKY I KNOW)
-        hardDrives.Add(module);
+        module.GetComponent<RackModule>().ActivateModule();
         module.SetActive(false);
+        hardDrives.Add(module);
+        
 
         UpdateTexture();
 
