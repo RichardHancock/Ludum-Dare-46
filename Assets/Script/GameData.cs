@@ -82,6 +82,8 @@ public class GameData : MonoBehaviour
         {
             Debug.LogError("Module Prefabs not assigned to GameData Object");
         }
+
+        CreateInitialServerLoadout();
     }
 
     private void UpdateMoneyText()
@@ -188,5 +190,21 @@ public class GameData : MonoBehaviour
         }
 
         return capacity;
+    }
+
+
+    private void CreateInitialServerLoadout()
+    {
+        for (int i=0; i< 12; i++)
+        {
+            GameObject hardDrive = Instantiate(StoreData[RackModule.ModuleType.HardDrive].Prefab);
+            storageRacks[0].InsertItem(hardDrive);
+        }
+
+        GameObject compModule = Instantiate(StoreData[RackModule.ModuleType.Compute].Prefab);
+        computeRacks[0].InsertItem(compModule);
+
+        GameObject coreModule = Instantiate(StoreData[RackModule.ModuleType.Core].Prefab);
+        coreRacks[0].InsertItem(coreModule);
     }
 }
