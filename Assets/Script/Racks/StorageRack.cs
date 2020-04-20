@@ -59,9 +59,6 @@ public class StorageRack : Rack
 
     public override bool InsertItem(GameObject item)
     {
-        if (!IsInsertable())
-            return false;
-
         RackModule module = item.GetComponent<RackModule>();
 
         //Check if compatible with this rack type
@@ -71,6 +68,17 @@ public class StorageRack : Rack
             return false;
         }
 
+        if (moduleFailed)
+        {
+            ResetFailedModule();
+
+            Destroy(item);
+
+            return true;
+        }
+
+        if (!IsInsertable())
+            return false;
 
         int bayIndex = FindIndexOfFirstAvailableStorageBay();
 
@@ -103,15 +111,35 @@ public class StorageRack : Rack
 
     public override bool LocalFailCheck()
     {
+        if (moduleFailed)
+            return false;
+
         foreach (GameObject obj in Modules)
         {
             if (obj.GetComponent<StorageModuleHack>().LocalFailCheck())
             {
                 //TODO Display Module Failure
+                moduleFailed = true;
+                smokeEffect.Play();
                 return true;
             }
         }
 
         return false;
+    }
+
+    protected override void ResetFailedModule()
+    {
+        foreach (GameObject obj in Modules)
+        {
+            if (obj.GetComponent<StorageModuleHack>().ResetFailedModuleIfExists())
+            {
+                moduleFailed = false;
+                smokeEffect.Stop();
+                return;
+            }
+        }
+
+        Debug.LogError("Tried to reset a module but none appear damaged");
     }
 }

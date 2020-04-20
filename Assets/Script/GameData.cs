@@ -88,6 +88,36 @@ public class GameData : MonoBehaviour
         gameObject.GetComponent<ScoreSystem>().Begin();
     }
 
+    private void Update()
+    {
+        if (Input.GetButtonDown("TestKey"))
+        {
+            foreach (StorageRack rack in storageRacks)
+            {
+                if (rack.LocalFailCheck())
+                {
+                    return;
+                }
+            }
+
+            foreach (ComputeRack rack in computeRacks)
+            {
+                if (rack.LocalFailCheck())
+                {
+                    return;
+                }
+            }
+
+            foreach (CoreRack rack in coreRacks)
+            {
+                if (rack.LocalFailCheck())
+                {
+                    return;
+                }
+            }
+        }
+    }
+
     private void UpdateMoneyText()
     {
         if (MoneyText == null)

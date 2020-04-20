@@ -61,7 +61,22 @@ public class StorageModuleHack : MonoBehaviour
         {
             if (hd.GetComponent<RackModule>().LocalFailCheck())
             {
-                //TODO Display Module Failure
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public virtual bool ResetFailedModuleIfExists()
+    {
+        foreach (GameObject obj in hardDrives)
+        {
+            RackModule rm = obj.GetComponent<RackModule>();
+            if (!rm.Active)
+            {
+                rm.ResetModule();
+                rm.ActivateModule();
                 return true;
             }
         }

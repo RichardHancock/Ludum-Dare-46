@@ -12,6 +12,10 @@ public abstract class Rack : Interactable
 
     public float AnimationStartPosOffset = 0.0001f;
 
+    public ParticleSystem smokeEffect;
+    //A local module has failed so the next module delivered will replace it
+    protected bool moduleFailed = false;
+
     protected virtual void Start()
     {
         BayPositions = new List<GameObject>();
@@ -62,11 +66,8 @@ public abstract class Rack : Interactable
 
     public override bool InsertItem(GameObject item)
     {
-        if (!IsInsertable())
-            return false;
-
         RackModule module = item.GetComponent<RackModule>();
-        
+
         //Check if compatible with this rack type
         if (module == null || module.Type != CompatibleType)
         {
@@ -74,6 +75,17 @@ public abstract class Rack : Interactable
             return false;
         }
 
+        if (moduleFailed)
+        {
+            ResetFailedModule();
+
+            Destroy(item);
+
+            return true;
+        }
+
+        if (!IsInsertable())
+            return false;
 
         //int bay = FindFirstAvailableBay();
         //if (bay == -1)
@@ -120,15 +132,38 @@ public abstract class Rack : Interactable
     //Check if the rack should experience a local failure, if so trigger a local failure event
     public virtual bool LocalFailCheck()
     {
+        if (moduleFailed)
+            return false;
+
         foreach (GameObject obj in Modules)
         {
             if (obj.GetComponent<RackModule>().LocalFailCheck())
             {
                 //TODO Display Module Failure
+                moduleFailed = true;
+                smokeEffect.Play();
                 return true;
             }
         }
 
         return false;
+    }
+
+    protected virtual void ResetFailedModule()
+    {
+        foreach (GameObject obj in Modules)
+        {
+            RackModule rm = obj.GetComponent<RackModule>();
+            if (!rm.Active)
+            {
+                rm.ResetModule();
+                rm.ActivateModule();
+                moduleFailed = false;
+                smokeEffect.Stop();
+                return;
+            }
+        }
+
+        Debug.LogError("Tried to reset a module but none appear damaged");
     }
 }

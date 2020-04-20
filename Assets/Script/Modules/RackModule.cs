@@ -18,7 +18,7 @@ public abstract class RackModule : Pickup
 
     protected int Age = 0;
 
-    private bool Active = false;
+    public bool Active { get; protected set; } = false;
     public bool Animated = false;
     protected bool AnimationFinished = false;
     protected Vector3 AnimationStartPoint;
@@ -82,7 +82,7 @@ public abstract class RackModule : Pickup
     private void AgeModule()
     {
         Age += 1;
-        Debug.Log("AGE"+ Age);
+        //Debug.Log("AGE"+ Age);
     }
 
     public bool LocalFailCheck()
