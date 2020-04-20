@@ -14,7 +14,7 @@ public abstract class RackModule : Pickup
 
     public ModuleType Type;
 
-    protected int RawOutput;
+    public int RawOutput;
 
     protected int Age = 0;
 

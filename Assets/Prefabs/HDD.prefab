@@ -125,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LargeItem: 0
   Type: 0
+  RawOutput: 1
   Animated: 0
   FailureThresholdMin: -24
   FailureThresholdMax: 24
