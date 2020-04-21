@@ -35,7 +35,7 @@ public class ScoreSystem : MonoBehaviour
             // User num increases by 12 every 30 seconds unless any capacity is 100% or above.
             if (HDDCapacityPercentage < 100.0f && CoreCapacityPercentage < 100.0f && ComputeCapacityPercentage < 100.0f)
             {
-                Debug.Log("User num increase.");
+                //Debug.Log("User num increase.");
                 UserNum += 12;
             }
 
@@ -87,7 +87,7 @@ public class ScoreSystem : MonoBehaviour
             gameData.Money += Profit;
             //Debug.Log("Total Cap: " + (int)(HDDCapacityPercentage + CoreCapacityPercentage + ComputeCapacityPercentage) + "%");
             //Debug.Log("HDD Capacity: " + (int)HDDCapacityPercentage + "%, Core Capacity: " + (int)CoreCapacityPercentage + "%, Compute Capacity: " + (int)ComputeCapacityPercentage + "%, Users: " + UserNum + ", Profit: " + Profit + " Pounds, Money: " + gameData.Money + "Pounds");
-            string prefix = (Profit > 0) ? "+" : "-";
+            string prefix = (Profit > -1) ? "+" : "-";
             
             
             profitText.text = prefix + "£" + System.Math.Abs(Profit);

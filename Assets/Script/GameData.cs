@@ -206,10 +206,6 @@ public class GameData : MonoBehaviour
         storageRacks = new List<Rack>(GameObject.Find("StorageRacks").GetComponentsInChildren<Rack>());
         coreRacks = new List<Rack>(GameObject.Find("CoreRacks").GetComponentsInChildren<Rack>());
         computeRacks = new List<Rack>(GameObject.Find("ComputeRacks").GetComponentsInChildren<Rack>());
-
-        Debug.Log(storageRacks.Count + "Storage Racks");
-        Debug.Log(coreRacks.Count + "Core Racks");
-        Debug.Log(computeRacks.Count + "Compute Racks");
     }
 
     public int GetTotalModuleTypeRackCapacity(RackModule.ModuleType type)
