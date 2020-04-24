@@ -21,7 +21,9 @@ public class PlayerController : MonoBehaviour
     public GameObject FollowCamera;
     public Vector3 FollowCamOffset = new Vector3(0.0f, 8.0f, -10.0f);
 
-    
+    private float horizontalMovement;
+    private float verticalMovement;
+
 
     // Start is called before the first frame update
     void Start()
@@ -38,8 +40,8 @@ public class PlayerController : MonoBehaviour
         if (gameData.DisableInput)
             return;
 
-        float horizontalMovement = Input.GetAxisRaw("Horizontal");
-        float verticalMovement = Input.GetAxisRaw("Vertical");
+        //TODO Needs to move to input, also maybe us non raw function
+        
 
         Vector3 movement = new Vector3(horizontalMovement, 0.0f, verticalMovement);
         RB.AddForce(movement * MovementSpeed);
@@ -56,6 +58,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        horizontalMovement = Input.GetAxisRaw("Horizontal");
+        verticalMovement = Input.GetAxisRaw("Vertical");
+
         if (!gameData.DisableInput && Input.GetButtonDown("Pickup"))
         {
             if (HeldItem == null)
