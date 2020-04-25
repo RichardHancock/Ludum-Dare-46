@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    private GameData gameData;
-
     [SerializeField] 
     private float movementSpeed = 5.0f;
 
@@ -27,14 +25,12 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
-
         rb = GetComponent<Rigidbody>();
     }
 
     void FixedUpdate()
     {
-        if (gameData.DisableInput)
+        if (GameManager.Instance.DisableInput)
             return;
 
         Vector3 movement = new Vector3(horizontalMovement, 0.0f, verticalMovement);
@@ -56,7 +52,7 @@ public class PlayerController : MonoBehaviour
         horizontalMovement = Input.GetAxisRaw("Horizontal");
         verticalMovement = Input.GetAxisRaw("Vertical");
 
-        if (!gameData.DisableInput && Input.GetButtonDown("Pickup"))
+        if (!GameManager.Instance.DisableInput && Input.GetButtonDown("Pickup"))
         {
             if (heldItem == null)
             {
@@ -67,7 +63,7 @@ public class PlayerController : MonoBehaviour
                 Drop();
             }
         }
-        else if (!gameData.DisableInput && Input.GetButtonDown("Interact/Confirm"))
+        else if (!GameManager.Instance.DisableInput && Input.GetButtonDown("Interact/Confirm"))
         {
             if (itemInInteractRange != null)
             {
@@ -80,8 +76,8 @@ public class PlayerController : MonoBehaviour
     {
         if (heldItem == null || itemInInteractRange == null)
         {
-            gameData.PlayerAudio.clip = gameData.Error;
-            gameData.PlayerAudio.Play();
+            GameManager.Instance.PlayerAudio.clip = GameManager.Instance.Error;
+            GameManager.Instance.PlayerAudio.Play();
             return;
         }
             
@@ -93,8 +89,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            gameData.PlayerAudio.clip = gameData.Error;
-            gameData.PlayerAudio.Play();
+            GameManager.Instance.PlayerAudio.clip = GameManager.Instance.Error;
+            GameManager.Instance.PlayerAudio.Play();
         }
     }
 

@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class Store : Interactable
 {
-    private GameData gameData;
-
     private GameObject UICanvas;
 
     private RackModule.ModuleType currentItem = RackModule.ModuleType.HardDrive;
@@ -20,8 +18,6 @@ public class Store : Interactable
     // Start is called before the first frame update
     void Start()
     {
-        gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
-
         InteractableFlag = true;
         InsertableFlag = true;
 
@@ -51,9 +47,9 @@ public class Store : Interactable
 
     public override bool Interact()
     {
-        gameData.ToggleGameUI(false);
+        GameManager.Instance.ToggleGameUI(false);
         UICanvas.gameObject.SetActive(true);
-        gameData.DisableInput = true;
+        GameManager.Instance.DisableInput = true;
         SwitchCurrentItem(RackModule.ModuleType.HardDrive);
         HardDriveButton.Select();
 
@@ -62,7 +58,7 @@ public class Store : Interactable
 
     public override bool InsertItem(GameObject item)
     {
-        gameData.SellModule(item.GetComponent<RackModule>().Type);
+        GameManager.Instance.SellModule(item.GetComponent<RackModule>().Type);
 
         Destroy(item);
 
@@ -73,7 +69,7 @@ public class Store : Interactable
     {
         currentItem = itemType;
 
-        GameData.StoreItem item = gameData.StoreData[itemType];
+        GameManager.StoreItem item = GameManager.Instance.StoreData[itemType];
         ItemName.text = item.Name;
         ItemPrice.text = "£" + item.Price;
         ItemImage.texture = item.Image;
@@ -95,17 +91,17 @@ public class Store : Interactable
 
     public void BuyButtonPressed()
     {
-        gameData.BuyModule(currentItem);
+        GameManager.Instance.BuyModule(currentItem);
 
         UICanvas.gameObject.SetActive(false);
-        gameData.ToggleGameUI(true);
-        gameData.DisableInput = false;
+        GameManager.Instance.ToggleGameUI(true);
+        GameManager.Instance.DisableInput = false;
     }
 
     public void ExitButtonPressed()
     {
         UICanvas.gameObject.SetActive(false);
-        gameData.ToggleGameUI(true);
-        gameData.DisableInput = false;
+        GameManager.Instance.ToggleGameUI(true);
+        GameManager.Instance.DisableInput = false;
     }
 }

@@ -13,8 +13,6 @@ public class StorageRack : Rack
         InsertableFlag = true;
 
         FindBays();
-
-        gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
     }
 
     protected override void Start()
@@ -77,8 +75,8 @@ public class StorageRack : Rack
         if (moduleFailed)
         {
             ResetFailedModule();
-            gameData.PlayerAudio.clip = gameData.ServerStart;
-            gameData.PlayerAudio.Play();
+            GameManager.Instance.PlayerAudio.clip = GameManager.Instance.ServerStart;
+            GameManager.Instance.PlayerAudio.Play();
             Destroy(item);
 
             return true;
@@ -91,8 +89,8 @@ public class StorageRack : Rack
 
         //Add To Rack
         Modules[bayIndex].GetComponent<StorageModuleHack>().AddHardDrive(item);
-        gameData.PlayerAudio.clip = gameData.ServerStart;
-        gameData.PlayerAudio.Play();
+        GameManager.Instance.PlayerAudio.clip = GameManager.Instance.ServerStart;
+        GameManager.Instance.PlayerAudio.Play();
         //TODO Animation, Sound, Transform
         return true;
     }
@@ -126,8 +124,8 @@ public class StorageRack : Rack
         {
             if (obj.GetComponent<StorageModuleHack>().LocalFailCheck())
             {
-                gameData.PlayerAudio.clip = gameData.ServerFail;
-                gameData.PlayerAudio.Play();
+                GameManager.Instance.PlayerAudio.clip = GameManager.Instance.ServerFail;
+                GameManager.Instance.PlayerAudio.Play();
                 //TODO Display Module Failure
                 moduleFailed = true;
                 smokeEffect.Play();

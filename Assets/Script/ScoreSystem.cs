@@ -10,7 +10,6 @@ public class ScoreSystem : MonoBehaviour
     private int ComputeHDDScale = 6;
     private float UserValue = 1.0f;
     private int UserNum = 0;
-    private GameData gameData;
     private float HDDCapacityPercentage = 0.0f;
     private float CoreCapacityPercentage = 0.0f;
     private float ComputeCapacityPercentage = 0.0f;
@@ -23,7 +22,6 @@ public class ScoreSystem : MonoBehaviour
 
     public void Begin()
     {
-        gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
         StartCoroutine(IncreaseUsers());
         StartCoroutine(UpdateScores());
     }
@@ -39,7 +37,7 @@ public class ScoreSystem : MonoBehaviour
                 UserNum += 12;
             }
 
-            gameData.TriggerFailure(Random.Range(0, 3));
+            GameManager.Instance.TriggerFailure(Random.Range(0, 3));
 
             yield return new WaitForSeconds(30.0f);
         }
@@ -50,9 +48,9 @@ public class ScoreSystem : MonoBehaviour
         while (true)
         {
             // This runs every second.
-            int HDDUserCapacity = gameData.GetTotalModuleTypeRackCapacity(RackModule.ModuleType.HardDrive);
-            int CoreUserCapacity = gameData.GetTotalModuleTypeRackCapacity(RackModule.ModuleType.Core) * CoreHDDScale;
-            int ComputeUserCapacity = gameData.GetTotalModuleTypeRackCapacity(RackModule.ModuleType.Compute) * ComputeHDDScale;
+            int HDDUserCapacity = GameManager.Instance.GetTotalModuleTypeRackCapacity(RackModule.ModuleType.HardDrive);
+            int CoreUserCapacity = GameManager.Instance.GetTotalModuleTypeRackCapacity(RackModule.ModuleType.Core) * CoreHDDScale;
+            int ComputeUserCapacity = GameManager.Instance.GetTotalModuleTypeRackCapacity(RackModule.ModuleType.Compute) * ComputeHDDScale;
 
             HDDCapacityPercentage = CalculatePercentage((float)(UserNum) * PercentageUserVal, (float)HDDUserCapacity);
             CoreCapacityPercentage = CalculatePercentage((float)(UserNum) * PercentageUserVal, (float)CoreUserCapacity);
@@ -84,7 +82,7 @@ public class ScoreSystem : MonoBehaviour
             float RunningCost = HDDRunningCost + CoreRunningCost + ComputeRunningCost;
             int Profit = (int)(income - RunningCost);
 
-            gameData.Money += Profit;
+            GameManager.Instance.Money += Profit;
             //Debug.Log("Total Cap: " + (int)(HDDCapacityPercentage + CoreCapacityPercentage + ComputeCapacityPercentage) + "%");
             //Debug.Log("HDD Capacity: " + (int)HDDCapacityPercentage + "%, Core Capacity: " + (int)CoreCapacityPercentage + "%, Compute Capacity: " + (int)ComputeCapacityPercentage + "%, Users: " + UserNum + ", Profit: " + Profit + " Pounds, Money: " + gameData.Money + "Pounds");
             string prefix = (Profit > -1) ? "+" : "-";

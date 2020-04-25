@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameData : MonoBehaviour
+public class GameManager : Utilities.Singleton<GameManager>
 {
     private int money;
     public int Money { 
@@ -93,7 +93,7 @@ public class GameData : MonoBehaviour
 
         if (HardDrivePrefab == null || CoreModulePrefab == null || ComputeModulePrefab == null)
         {
-            Debug.LogError("Module Prefabs not assigned to GameData Object");
+            Debug.LogError("Module Prefabs not assigned to GameManager Object");
         }
 
         CreateInitialServerLoadout();

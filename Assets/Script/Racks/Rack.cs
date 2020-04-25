@@ -3,8 +3,6 @@ using UnityEngine;
 
 public abstract class Rack : Interactable
 {
-    protected GameData gameData;
-
     public int MaxCapacity { get; protected set; }
     protected List<GameObject> Modules;
     protected List<GameObject> BayPositions;
@@ -26,8 +24,6 @@ public abstract class Rack : Interactable
         InsertableFlag = true;
         MaxCapacity = 0;
         Health = 100.0f;
-
-        gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
     }
 
     protected virtual void Start()
@@ -87,8 +83,8 @@ public abstract class Rack : Interactable
         if (moduleFailed)
         {
             ResetFailedModule();
-            gameData.PlayerAudio.clip = gameData.ServerStart;
-            gameData.PlayerAudio.Play();
+            GameManager.Instance.PlayerAudio.clip = GameManager.Instance.ServerStart;
+            GameManager.Instance.PlayerAudio.Play();
             Destroy(item);
 
             return true;
@@ -114,8 +110,8 @@ public abstract class Rack : Interactable
 
         module.SetAnimationPoints(item.transform.position, bayPos.position);
 
-        gameData.PlayerAudio.clip = gameData.ServerStart;
-        gameData.PlayerAudio.Play();
+        GameManager.Instance.PlayerAudio.clip = GameManager.Instance.ServerStart;
+        GameManager.Instance.PlayerAudio.Play();
 
         module.ActivateModule();
         //TODO Sound
@@ -151,8 +147,8 @@ public abstract class Rack : Interactable
         {
             if (obj.GetComponent<RackModule>().LocalFailCheck())
             {
-                gameData.PlayerAudio.clip = gameData.ServerFail;
-                gameData.PlayerAudio.Play();
+                GameManager.Instance.PlayerAudio.clip = GameManager.Instance.ServerFail;
+                GameManager.Instance.PlayerAudio.Play();
                 //TODO Display Module Failure
                 moduleFailed = true;
                 smokeEffect.Play();
