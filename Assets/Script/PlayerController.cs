@@ -8,34 +8,28 @@ public class PlayerController : MonoBehaviour
 {
     private GameData gameData;
 
-    [SerializeField] private float movementSpeed = 5.0f;
+    [SerializeField] 
+    private float movementSpeed = 5.0f;
 
     private Rigidbody rb;
 
-    private GameObject heldItem;
-    private GameObject itemInPickupRange;
-    private GameObject itemInInteractRange;
+    private GameObject heldItem, itemInPickupRange, itemInInteractRange;
 
-    [SerializeField] private GameObject smallItemHoldPoint;
-    [SerializeField] private GameObject largeItemHoldPoint;
+    [SerializeField] 
+    private GameObject smallItemHoldPoint, largeItemHoldPoint;
 
-    [SerializeField] private GameObject followCamera;
-    [SerializeField] private Vector3 followCamOffset = new Vector3(0.0f, 6.0f, -5.0f);
+    [SerializeField] 
+    private GameObject followCamera;
+    [SerializeField] 
+    private Vector3 followCamOffset = new Vector3(0.0f, 6.0f, -5.0f);
 
-    private float horizontalMovement;
-    private float verticalMovement;
+    private float horizontalMovement, verticalMovement;
 
     private void Awake()
     {
         gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
 
         rb = GetComponent<Rigidbody>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     void FixedUpdate()
