@@ -6,32 +6,35 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    GameData gameData;
+    private GameData gameData;
 
-    public float MovementSpeed = 5.0f;
+    [SerializeField] private float movementSpeed = 5.0f;
 
-    private Rigidbody RB;
+    private Rigidbody rb;
 
-    private GameObject HeldItem = null;
-    private GameObject ItemInPickupRange = null;
-    private GameObject ItemInInteractRange = null;
-    public GameObject SmallItemHoldPoint = null;
-    public GameObject LargeItemHoldPoint = null;
+    private GameObject heldItem;
+    private GameObject itemInPickupRange;
+    private GameObject itemInInteractRange;
 
-    public GameObject FollowCamera;
-    public Vector3 FollowCamOffset = new Vector3(0.0f, 8.0f, -10.0f);
+    [SerializeField] private GameObject smallItemHoldPoint;
+    [SerializeField] private GameObject largeItemHoldPoint;
+
+    [SerializeField] private GameObject followCamera;
+    [SerializeField] private Vector3 followCamOffset = new Vector3(0.0f, 6.0f, -5.0f);
 
     private float horizontalMovement;
     private float verticalMovement;
 
+    private void Awake()
+    {
+        gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
+
+        rb = GetComponent<Rigidbody>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        gameData = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameData>();
-
-        RB = GetComponent<Rigidbody>();
-
         
     }
 
@@ -40,19 +43,17 @@ public class PlayerController : MonoBehaviour
         if (gameData.DisableInput)
             return;
 
-        //TODO Needs to move to input, also maybe us non raw function
-        
-
         Vector3 movement = new Vector3(horizontalMovement, 0.0f, verticalMovement);
-        RB.AddForce(movement * MovementSpeed);
+        rb.AddForce(movement * movementSpeed);
+
         if (movement != Vector3.zero)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15F);
         }
 
         //Follow Camera Update
-        Vector3 cameraPos = transform.position + FollowCamOffset;
-        FollowCamera.transform.position = cameraPos;
+        Vector3 cameraPos = transform.position + followCamOffset;
+        followCamera.transform.position = cameraPos;
     }
 
     // Update is called once per frame
@@ -63,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
         if (!gameData.DisableInput && Input.GetButtonDown("Pickup"))
         {
-            if (HeldItem == null)
+            if (heldItem == null)
             {
                 PickUp();
             }
@@ -74,16 +75,16 @@ public class PlayerController : MonoBehaviour
         }
         else if (!gameData.DisableInput && Input.GetButtonDown("Interact/Confirm"))
         {
-            if (ItemInInteractRange != null)
+            if (itemInInteractRange != null)
             {
-                ItemInInteractRange.GetComponent<Interactable>().Interact();
+                itemInInteractRange.GetComponent<Interactable>().Interact();
             }
         }
     }
 
     private void Drop()
     {
-        if (HeldItem == null || ItemInInteractRange == null)
+        if (heldItem == null || itemInInteractRange == null)
         {
             gameData.PlayerAudio.clip = gameData.Error;
             gameData.PlayerAudio.Play();
@@ -91,10 +92,10 @@ public class PlayerController : MonoBehaviour
         }
             
 
-        if (ItemInInteractRange.GetComponent<Interactable>().InsertItem(HeldItem))
+        if (itemInInteractRange.GetComponent<Interactable>().InsertItem(heldItem))
         {
             //Item Placed Successfully
-            HeldItem = null;
+            heldItem = null;
         }
         else
         {
@@ -105,28 +106,28 @@ public class PlayerController : MonoBehaviour
 
     private void PickUp()
     {
-        if (ItemInPickupRange != null)
+        if (itemInPickupRange != null)
         {
-            HeldItem = ItemInPickupRange;
-            ItemInPickupRange = null;
+            heldItem = itemInPickupRange;
+            itemInPickupRange = null;
 
-            Rigidbody tmpRB = HeldItem.GetComponent<Rigidbody>();
+            Rigidbody tmpRB = heldItem.GetComponent<Rigidbody>();
             tmpRB.isKinematic = true;
             tmpRB.detectCollisions = false;
 
-            bool largeItem = HeldItem.GetComponent<RackModule>().LargeItem;
+            bool largeItem = heldItem.GetComponent<RackModule>().LargeItem;
 
-            GameObject holdPoint = (largeItem ? LargeItemHoldPoint : SmallItemHoldPoint);
+            GameObject holdPoint = (largeItem ? largeItemHoldPoint : smallItemHoldPoint);
 
 
-            HeldItem.transform.rotation = transform.rotation;
-            HeldItem.transform.position = holdPoint.transform.position;
+            heldItem.transform.rotation = transform.rotation;
+            heldItem.transform.position = holdPoint.transform.position;
 
             //Need to check if large or small item once implemented later
-            HeldItem.transform.SetParent(holdPoint.transform, true);
+            heldItem.transform.SetParent(holdPoint.transform, true);
 
             //Make Non Pickupable
-            HeldItem.tag = "Untagged";
+            heldItem.tag = "Untagged";
 
             //Set gravity to false while holding it
             
@@ -134,10 +135,10 @@ public class PlayerController : MonoBehaviour
             //Reset Rotation to zero
             //HeldItem.transform.localRotation = Quaternion.identity;
             //We re-position the ball on our guide object 
-            HeldItem.transform.localPosition = Vector3.zero;
+            heldItem.transform.localPosition = Vector3.zero;
 
             if(largeItem)
-                HeldItem.transform.Rotate(90, 0, 0);
+                heldItem.transform.Rotate(90, 0, 0);
         }
     }
 
@@ -145,11 +146,11 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            ItemInPickupRange = other.gameObject;
+            itemInPickupRange = other.gameObject;
         } 
         else if ( other.gameObject.CompareTag("Interactable"))
         {
-            ItemInInteractRange = other.gameObject;
+            itemInInteractRange = other.gameObject;
         }
         
     }
@@ -158,11 +159,11 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Pickup"))
         {
-            ItemInPickupRange = null;
+            itemInPickupRange = null;
         }
         else if (other.gameObject.CompareTag("Interactable"))
         {
-            ItemInInteractRange = null;
+            itemInInteractRange = null;
         }
     }
 }

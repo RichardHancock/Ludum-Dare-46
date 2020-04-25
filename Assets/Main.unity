@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44759506, g: 0.49756432, b: 0.5753513, a: 1}
+  m_IndirectSpecularColor: {r: 0.44759524, g: 0.49756485, b: 0.5753524, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5727,11 +5727,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fe2f5bf4a971c44e848e4389d3872fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 80
-  SmallItemHoldPoint: {fileID: 468658364}
-  LargeItemHoldPoint: {fileID: 582817216}
-  FollowCamera: {fileID: 963194225}
-  FollowCamOffset: {x: 0, y: 6, z: -5}
+  movementSpeed: 80
+  smallItemHoldPoint: {fileID: 468658364}
+  largeItemHoldPoint: {fileID: 582817216}
+  followCamera: {fileID: 963194225}
+  followCamOffset: {x: 0, y: 6, z: -5}
 --- !u!54 &1405136225
 Rigidbody:
   m_ObjectHideFlags: 0
