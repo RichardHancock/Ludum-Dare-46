@@ -16,10 +16,10 @@ public class PlayerController : MonoBehaviour
     private GameObject heldItem, itemInPickupRange, itemInInteractRange;
 
     [SerializeField] 
-    private GameObject smallItemHoldPoint, largeItemHoldPoint;
+    private GameObject smallItemHoldPoint = null, largeItemHoldPoint = null;
 
     [SerializeField] 
-    private GameObject followCamera;
+    private GameObject followCamera = null;
     [SerializeField] 
     private Vector3 followCamOffset = new Vector3(0.0f, 6.0f, -5.0f);
 
